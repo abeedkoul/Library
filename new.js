@@ -1,5 +1,6 @@
 console.log("This works")
 const container = document.getElementById('library-container');
+const formArea =  document.createElement("div");
 function displayBooks(){
     container.innerHTML = "";
     myLibrary.forEach(book =>{
@@ -7,15 +8,18 @@ function displayBooks(){
         const card = document.createElement("div");
         const remove = document.createElement("button"); 
         const toggleRead = document.createElement("button");
+
+
+        //Creating the button for toggle read.
         toggleRead.textContent="button"
         toggleRead.addEventListener("click",()=>{
-            console.log("click")
-            console.log(book.read)
             if(book.read == true){
                 book.read = false;
+                displayBooks();
             }
             else if (book.read == false){
                 book.read = true;
+                displayBooks();
             }
         })
 
@@ -39,7 +43,11 @@ function displayBooks(){
         remove.textContent= "Remove Book";
         remove.addEventListener("click",()=>{
             const id = book.id;
-            
+            const indexOfRemoval = myLibrary.findIndex(book => book.id === id);
+            if(indexOfRemoval !== -1){
+                myLibrary.splice(indexOfRemoval,1);
+                displayBooks();
+            }
         });
 
        
@@ -55,6 +63,9 @@ function displayBooks(){
         
     })
 }
+
+const myForm = document.createElement("form");
+
 const myLibrary = [];
 function Book(name,author,pages,read){
     this.name = name;
